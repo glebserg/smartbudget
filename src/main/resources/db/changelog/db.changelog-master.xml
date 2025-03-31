@@ -13,7 +13,7 @@
             <column name="first_name" type="varchar(20)" remarks="Имя">
                 <constraints nullable="false"/>
             </column>
-            <column name="second_name_name" type="varchar(20)" remarks="Фамилия">
+            <column name="second_name" type="varchar(20)" remarks="Фамилия">
                 <constraints nullable="false"/>
             </column>
             <column name="created_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMPИ"
