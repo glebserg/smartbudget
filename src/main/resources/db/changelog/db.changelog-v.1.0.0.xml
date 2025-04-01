@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="1" author="gmuravev">
+        <preConditions>
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="users" remarks="Пользователи">
+            <column name="user_id" type="serial" remarks="ID" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(20)" remarks="Имя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="second_name" type="varchar(20)" remarks="Фамилия">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMPИ"
+                    remarks="Дата добавления"/>
+            <column name="updated_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата обновления"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="users"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="gmuravev">
+        <preConditions>
+            <not>
+                <tableExists tableName="income_categories"/>
+            </not>
+        </preConditions>
+        <createTable tableName="income_categories" remarks="Категории доходов">
+            <column name="income_category_id" type="serial" remarks="ID" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INT" remarks="ID пользователя"/>
+            <column name="title" type="varchar(20)" remarks="Заголовок">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)" remarks="Описание">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="income_categories"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="user_id"
+                constraintName="fk_income_categories_users"
+                onDelete="CASCADE"/>
+        <rollback>
+            <dropTable tableName="income_categories"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="3" author="gmuravev">
+        <preConditions>
+            <not>
+                <tableExists tableName="outlay_categories"/>
+            </not>
+        </preConditions>
+        <createTable tableName="outlay_categories" remarks="Категории расходов">
+            <column name="outlay_category_id" type="serial" remarks="ID" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INT" remarks="ID пользователя"/>
+            <column name="priority" type="SMALLINT" remarks="Приоритет (0-обязательно, 1-комфорт, 2-вредно)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <sql>
+            ALTER TABLE outlay_categories
+                ADD CONSTRAINT check_priority
+                    CHECK (priority IN (0, 1, 2));
+        </sql>
+        <addForeignKeyConstraint
+                baseTableName="outlay_categories"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="user_id"
+                constraintName="fk_outlay_categories_users"
+                onDelete="CASCADE"/>
+        <rollback>
+            <dropTable tableName="outlay_categories"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="4" author="gmuravev">
+        <preConditions>
+            <not>
+                <tableExists tableName="incomes"/>
+            </not>
+        </preConditions>
+        <createTable tableName="incomes" remarks="Доходы">
+            <column name="income_id" type="serial" remarks="ID" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="income_category_id" type="INT" remarks="ID категории дохода">
+                <constraints nullable="true"/>
+            </column>
+            <column name="user_id" type="INT" remarks="ID Пользователя"/>
+            <column name="value" type="FLOAT" remarks="Значение"/>
+            <column name="income_date" type="DATE" remarks="Дата дохода"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="incomes"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="user_id"
+                constraintName="fk_incomes_users"
+                onDelete="CASCADE"/>
+        <addForeignKeyConstraint
+                baseTableName="incomes"
+                baseColumnNames="income_category_id"
+                referencedTableName="outlay_categories"
+                referencedColumnNames="outlay_category_id"
+                constraintName="fk_outlays_outlay_categories"
+                onDelete="SET NULL"/>
+    </changeSet>
+
+    <changeSet id="5" author="gmuravev">
+        <preConditions>
+            <not>
+                <tableExists tableName="outlays"/>
+            </not>
+        </preConditions>
+        <createTable tableName="outlays">
+            <column name="outlay_id" type="serial" remarks="ID" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INT" remarks="ID пользователя"/>
+            <column name="outlay_category_id" type="INT" remarks="Категория расхода"/>
+            <column name="value" type="FLOAT" remarks="Значение"/>
+            <column name="comment" type="varchar(100)" remarks="Описание">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="outlays"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="user_id"
+                constraintName="fk_outlays_users"
+                onDelete="CASCADE"/>
+        <addForeignKeyConstraint
+                baseTableName="outlays"
+                baseColumnNames="outlay_category_id"
+                referencedTableName="outlay_categories"
+                referencedColumnNames="outlay_category_id"
+                constraintName="fk_outlays_outlay_categories"
+                onDelete="SET NULL"/>
+        <rollback>
+            <dropTable tableName="outlays"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="6" author="gmuravev">
+        <preConditions>
+            <not>
+                <tableExists tableName="purposes"/>
+            </not>
+        </preConditions>
+        <createTable tableName="purposes" remarks="Цели">
+            <column name="purpose_id" type="serial" remarks="ID" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INT" remarks="ID пользователя"/>
+            <column name="purpose_date" type="TIMESTAMP" remarks="Дата достижения цели"/>
+            <column name="value" type="FLOAT" remarks="Значение"/>
+            <column name="title" type="varchar(20)" remarks="Заголовок">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)" remarks="Описание">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="purposes"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="user_id"
+                constraintName="fk_purposes_users"
+                onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>
