@@ -21,10 +21,16 @@
             <column name="second_name" type="varchar(20)" remarks="Фамилия">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMPИ"
-                    remarks="Дата добавления"/>
-            <column name="updated_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"
-                    remarks="Дата обновления"/>
+
+            <column name="created_date" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"
+                    remarks="Дата добавления">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_date" type="TIMESTAMP"
+                    defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                    remarks="Дата обновления">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <rollback>
             <dropTable tableName="users"/>
