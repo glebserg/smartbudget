@@ -4,10 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.atc.smartbudget.dto.outlayCategory.GetOutlayCategory;
 import ru.atc.smartbudget.dto.outlayCategory.OutlayCategoryMapping;
 import ru.atc.smartbudget.dto.outlayCategory.PutOutlayCategory;
-import ru.atc.smartbudget.dto.user.GetUser;
-import ru.atc.smartbudget.dto.user.PutUser;
 import ru.atc.smartbudget.model.DBOutlayCategory;
-import ru.atc.smartbudget.model.DBUser;
 import ru.atc.smartbudget.repository.OutlayCategoryRepository;
 
 import java.util.Optional;

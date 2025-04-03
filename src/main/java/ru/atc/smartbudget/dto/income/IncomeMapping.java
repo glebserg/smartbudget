@@ -10,5 +10,7 @@ public interface IncomeMapping {
     GetIncome toDto(DBIncome income);
 
     @Mapping(target = "incomeId", ignore = true)
-    DBIncome postToEntity(PostIncome dto);
+    DBIncome postToEntity(PostIncome dto, Long userId);
+
+    DBIncome putToEntity(Long incomeId, PutIncome dto );
 }

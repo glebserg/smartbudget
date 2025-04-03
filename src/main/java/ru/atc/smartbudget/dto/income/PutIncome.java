@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostIncome {
+public class PutIncome {
 
     @NonNull
     private Double value;

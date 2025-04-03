@@ -3,9 +3,11 @@ package ru.atc.smartbudget.services;
 import org.springframework.stereotype.Service;
 import ru.atc.smartbudget.dto.income.GetIncome;
 import ru.atc.smartbudget.dto.income.IncomeMapping;
-import ru.atc.smartbudget.model.DBIncome;
+import ru.atc.smartbudget.dto.income.PutIncome;
 import ru.atc.smartbudget.dto.income.PostIncome;
 import ru.atc.smartbudget.repository.IncomeRepository;
+
+import java.util.Optional;
 
 @Service
 public class IncomeService {
@@ -19,24 +21,26 @@ public class IncomeService {
         this.incomeMapping = incomeMapping;
     }
 
-    public DBIncome getIncomeById(Long id) {
-        return incomeRepository.findById(id).orElseThrow();
+    public Optional<GetIncome> getIncomeById(Long id) {
+        return incomeRepository.findById(id).map(incomeMapping::toDto);
     }
 
     public GetIncome createIncome(Long userId, PostIncome incomeData) {
-
-//        System.out.println(";kdlgflfgkdnb");
-//        DBIncome income = new DBIncome();
-//        income.setIncomeCategoryId(incomeData.getIncomeCategoryId());
-//        income.setUserId(userId);
-//        income.setValue(incomeData.getValue());
-//        income.setIncomeDate(incomeData.getIncomeDate());
-//        return incomeRepository.save(income);
-        return incomeMapping.toDto(incomeRepository.save(incomeMapping.postToEntity(incomeData)));
+        return incomeMapping.toDto(incomeRepository.save(
+                incomeMapping.postToEntity(incomeData, userId))
+        );
     }
 
+    public Optional<GetIncome> updateIncomeById(Long incomeId, PutIncome incomeData) {
+        return incomeRepository.findById(incomeId)
+                .map(entity -> {
+                    entity.setValue(incomeData.getValue());
+                    entity.setIncomeDate(incomeData.getIncomeDate());
+                    return incomeMapping.toDto(incomeRepository.save(entity));
+                });
+    }
 
-    private boolean itIsMe(long id) {
+    private boolean isOwner(long userId) {
         return true;
     }
 

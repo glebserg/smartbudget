@@ -28,5 +28,4 @@ public class DBIncome {
     @ManyToOne
     @JoinColumn(name = "income_category_id")
     private DBIncomeCategory incomeCategory;
-
 }

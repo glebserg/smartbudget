@@ -1,4 +1,4 @@
-package ru.atc.smartbudget.dto.income;
+package ru.atc.smartbudget.dto.outlay;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,11 +11,11 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostIncome {
+public class PutOutlay {
 
     @NonNull
     private Double value;
 
     @NonNull
-    private LocalDate incomeDate;
+    private LocalDate outlayDate;
 }

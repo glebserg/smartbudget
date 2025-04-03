@@ -154,6 +154,7 @@
             <column name="comment" type="varchar(100)" remarks="Описание">
                 <constraints nullable="true"/>
             </column>
+            <column name="outlay_date" type="DATE" remarks="Дата расхода"/>
         </createTable>
         <addForeignKeyConstraint
                 baseTableName="outlays"
