@@ -81,6 +81,12 @@
             <column name="priority" type="SMALLINT" remarks="Приоритет (0-обязательно, 1-комфорт, 2-вредно)">
                 <constraints nullable="false"/>
             </column>
+            <column name="title" type="varchar(20)" remarks="Заголовок">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)" remarks="Описание">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <sql>
             ALTER TABLE outlay_categories
@@ -126,9 +132,9 @@
         <addForeignKeyConstraint
                 baseTableName="incomes"
                 baseColumnNames="income_category_id"
-                referencedTableName="outlay_categories"
-                referencedColumnNames="outlay_category_id"
-                constraintName="fk_outlays_outlay_categories"
+                referencedTableName="income_categories"
+                referencedColumnNames="income_category_id"
+                constraintName="fk_incomes_income_categories"
                 onDelete="SET NULL"/>
     </changeSet>
 
