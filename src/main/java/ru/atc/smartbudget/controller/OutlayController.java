@@ -26,15 +26,13 @@ public class OutlayController {
     @Operation(summary = "Расход по ID")
     @GetMapping("/{id}")
     public GetOutlay getOutlayById(@PathVariable Long id) {
-        return this.outlayService.getOutlayById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Outlay not found"));
+        return this.outlayService.getOutlayById(id);
     }
 
     @Operation(summary = "Редактирование дохода по ID")
     @PutMapping("/{id}")
     public GetOutlay updateOutlayById(@PathVariable Long id, PutOutlay data) {
-        return this.outlayService.updateOutlayById(id, data)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Outlay not found"));
+        return this.outlayService.updateOutlayById(id, data);
     }
 
 

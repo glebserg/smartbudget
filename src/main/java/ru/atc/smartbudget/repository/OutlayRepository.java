@@ -8,4 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OutlayRepository extends JpaRepository<DBOutlay, Long> {
+    List<DBOutlay> findAllByUserId(Long userId);
+    List<DBOutlay> findAllByUserIdAndOutlayDateBetweenOrderByOutlayDate(Long userId, LocalDate startDate, LocalDate endDate);
 }

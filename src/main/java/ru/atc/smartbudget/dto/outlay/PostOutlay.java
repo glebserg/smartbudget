@@ -14,8 +14,13 @@ import java.time.LocalDate;
 public class PostOutlay {
 
     @NonNull
+    private Long outlayCategoryId;
+
+    @NonNull
     private Double value;
 
     @NonNull
     private LocalDate outlayDate;
+
+    private String comment;
 }

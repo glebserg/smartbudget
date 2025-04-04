@@ -27,8 +27,7 @@ public class OutlayCategoryController {
     @Operation(summary = "Категория расхода по ID")
     @GetMapping("/{id}")
     public GetOutlayCategory getOutlayCategoryById(@PathVariable Long id) {
-        return this.outlayCategoryService.getOutlayCategoryById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Outlay category not found"));
+        return this.outlayCategoryService.getOutlayCategoryById(id);
     }
 
     @Operation(summary = "Редактирование категории расхода по ID")
@@ -37,8 +36,7 @@ public class OutlayCategoryController {
             @PathVariable Long id,
             @RequestBody PutOutlayCategory data
     ) {
-        return this.outlayCategoryService.updateOutlayCategoryById(id, data)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Outlay category not found"));
+        return this.outlayCategoryService.updateOutlayCategoryById(id, data);
     }
 
     @Operation(summary = "Удаление категории расхода по ID")

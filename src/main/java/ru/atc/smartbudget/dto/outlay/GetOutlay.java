@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import ru.atc.smartbudget.dto.incomeCategory.GetIncomeCategory;
+import ru.atc.smartbudget.dto.outlayCategory.GetOutlayCategory;
 
 import java.time.LocalDate;
 
@@ -14,11 +14,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class GetOutlay {
     private Long outlayId;
-    private GetIncomeCategory incomeCategory;
+
+    @NonNull
+    private GetOutlayCategory outlayCategory;
 
     @NonNull
     private Double value;
 
     @NonNull
-    private LocalDate incomeDate;
+    private LocalDate outlayDate;
+
 }

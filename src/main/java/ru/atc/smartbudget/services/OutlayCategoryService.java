@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.atc.smartbudget.dto.outlayCategory.GetOutlayCategory;
 import ru.atc.smartbudget.dto.outlayCategory.OutlayCategoryMapping;
 import ru.atc.smartbudget.dto.outlayCategory.PutOutlayCategory;
+import ru.atc.smartbudget.exception.OutlayCategoryNotFoundException;
 import ru.atc.smartbudget.model.DBOutlayCategory;
 import ru.atc.smartbudget.repository.OutlayCategoryRepository;
 
@@ -22,11 +23,14 @@ public class OutlayCategoryService {
         this.outlayCategoryMapping = outlayCategoryMapping;
     }
 
-    public Optional<GetOutlayCategory> getOutlayCategoryById(Long id) {
-        return outlayCategoryRepository.findById(id).map(outlayCategoryMapping::toDto);
+    public GetOutlayCategory getOutlayCategoryById(Long id) {
+        return outlayCategoryRepository
+                .findById(id)
+                .map(outlayCategoryMapping::toDto)
+                .orElseThrow(OutlayCategoryNotFoundException::new);
     }
 
-    public Optional<GetOutlayCategory> updateOutlayCategoryById(Long id, PutOutlayCategory inputData) {
+    public GetOutlayCategory updateOutlayCategoryById(Long id, PutOutlayCategory inputData) {
         return outlayCategoryRepository.findById(id)
                 .map(entity -> {
                     entity.setTitle(inputData.getTitle());
@@ -34,7 +38,7 @@ public class OutlayCategoryService {
                     entity.setPriority(inputData.getPriority());
                     DBOutlayCategory updatedEntity = outlayCategoryRepository.save(entity);
                     return outlayCategoryMapping.toDto(updatedEntity);
-                });
+                }).orElseThrow(OutlayCategoryNotFoundException::new);
     }
 
     public void deleteOutlayCategoryById(Long id) {

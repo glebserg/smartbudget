@@ -5,6 +5,7 @@ import ru.atc.smartbudget.dto.income.GetIncome;
 import ru.atc.smartbudget.dto.income.IncomeMapping;
 import ru.atc.smartbudget.dto.income.PutIncome;
 import ru.atc.smartbudget.dto.income.PostIncome;
+import ru.atc.smartbudget.exception.IncomeNotFoundException;
 import ru.atc.smartbudget.repository.IncomeRepository;
 
 import java.util.Optional;
@@ -21,8 +22,11 @@ public class IncomeService {
         this.incomeMapping = incomeMapping;
     }
 
-    public Optional<GetIncome> getIncomeById(Long id) {
-        return incomeRepository.findById(id).map(incomeMapping::toDto);
+    public GetIncome getIncomeById(Long id) {
+        return incomeRepository
+                .findById(id)
+                .map(incomeMapping::toDto)
+                .orElseThrow(IncomeNotFoundException::new);
     }
 
     public GetIncome createIncome(Long userId, PostIncome incomeData) {
@@ -31,13 +35,13 @@ public class IncomeService {
         );
     }
 
-    public Optional<GetIncome> updateIncomeById(Long incomeId, PutIncome incomeData) {
+    public GetIncome updateIncomeById(Long incomeId, PutIncome incomeData) {
         return incomeRepository.findById(incomeId)
                 .map(entity -> {
                     entity.setValue(incomeData.getValue());
                     entity.setIncomeDate(incomeData.getIncomeDate());
                     return incomeMapping.toDto(incomeRepository.save(entity));
-                });
+                }).orElseThrow(IncomeNotFoundException::new);
     }
 
     private boolean isOwner(long userId) {

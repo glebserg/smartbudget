@@ -14,4 +14,8 @@ public class GetOutlayCategory {
 
     @NonNull
     private String description;
+
+    @NonNull
+    private Integer priority;
+
 }

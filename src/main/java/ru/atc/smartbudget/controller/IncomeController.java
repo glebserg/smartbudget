@@ -26,15 +26,13 @@ public class IncomeController {
     @Operation(summary = "Доход по ID")
     @GetMapping("/{id}")
     public GetIncome getIncomeById(@PathVariable Long id) {
-        return this.incomeService.getIncomeById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Income not found"));
+        return this.incomeService.getIncomeById(id);
     }
 
     @Operation(summary = "Редактирование дохода по ID")
     @PutMapping("/{id}")
     public GetIncome updateIncomeById(@PathVariable Long id, PutIncome data) {
-        return this.incomeService.updateIncomeById(id, data)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Income not found"));
+        return this.incomeService.updateIncomeById(id, data);
     }
 
 
