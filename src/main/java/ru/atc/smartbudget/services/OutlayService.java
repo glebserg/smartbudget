@@ -1,55 +1,44 @@
 package ru.atc.smartbudget.services;
 
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import ru.atc.smartbudget.dto.outlay.GetOutlay;
+import ru.atc.smartbudget.dto.outlay.OutlayDetail;
 import ru.atc.smartbudget.dto.outlay.OutlayMapping;
-import ru.atc.smartbudget.dto.outlay.PostOutlay;
-import ru.atc.smartbudget.dto.outlay.PutOutlay;
+import ru.atc.smartbudget.dto.outlay.CreateOutlay;
+import ru.atc.smartbudget.dto.outlay.EditOutlay;
 import ru.atc.smartbudget.exception.OutlayCategoryNotFoundException;
 import ru.atc.smartbudget.exception.OutlayNotFoundException;
-import ru.atc.smartbudget.model.DBOutlay;
-import ru.atc.smartbudget.model.DBOutlayCategory;
+import ru.atc.smartbudget.model.Outlay;
+import ru.atc.smartbudget.model.OutlayCategory;
 import ru.atc.smartbudget.repository.OutlayCategoryRepository;
 import ru.atc.smartbudget.repository.OutlayRepository;
 
-import java.util.Optional;
-
+@AllArgsConstructor
 @Service
 public class OutlayService {
     private final OutlayRepository outlayRepository;
     private final OutlayCategoryRepository outlayCategoryRepository;
     private final OutlayMapping outlayMapping;
 
-    public OutlayService(
-            OutlayRepository outlayRepository,
-            OutlayCategoryRepository outlayCategoryRepository,
-            OutlayMapping outlayMapping
-    ) {
-        this.outlayRepository = outlayRepository;
-        this.outlayCategoryRepository = outlayCategoryRepository;
-        this.outlayMapping = outlayMapping;
-    }
 
-    public GetOutlay getOutlayById(Long id) {
+    public OutlayDetail getOutlayById(Long id) {
         return outlayRepository
                 .findById(id)
                 .map(outlayMapping::toDto)
                 .orElseThrow(OutlayNotFoundException::new);
     }
 
-    public GetOutlay createOutlay(Long userId, PostOutlay inputData) {
-        DBOutlayCategory outlayCategory = outlayCategoryRepository
+    public OutlayDetail createOutlay(Long userId, CreateOutlay inputData) {
+        OutlayCategory outlayCategory = outlayCategoryRepository
                 .findById(inputData.getOutlayCategoryId())
                 .orElseThrow(OutlayCategoryNotFoundException::new);
-        DBOutlay outlay = outlayMapping.postToEntity(inputData, userId, outlayCategory);
+        Outlay outlay = outlayMapping.postToEntity(inputData, userId, outlayCategory);
         return outlayMapping.toDto(
                 outlayRepository.save(outlay)
         );
     }
 
-    public GetOutlay updateOutlayById(Long outlayId, PutOutlay inputData) {
+    public OutlayDetail updateOutlayById(Long outlayId, EditOutlay inputData) {
         return outlayRepository.findById(outlayId)
                 .map(entity -> {
                     entity.setValue(inputData.getValue());

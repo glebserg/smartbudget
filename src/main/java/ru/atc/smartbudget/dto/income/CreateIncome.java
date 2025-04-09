@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PutIncome {
+public class CreateIncome {
 
     @NonNull
     private Double value;

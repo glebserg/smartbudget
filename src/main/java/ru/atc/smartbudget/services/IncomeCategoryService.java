@@ -1,18 +1,18 @@
 package ru.atc.smartbudget.services;
 
 import org.springframework.stereotype.Service;
-import ru.atc.smartbudget.dto.incomeCategory.GetIncomeCategory;
+import ru.atc.smartbudget.dto.incomeCategory.IncomeCategoryDetail;
 import ru.atc.smartbudget.dto.incomeCategory.IncomeCategoryMapping;
-import ru.atc.smartbudget.dto.incomeCategory.PostIncomeCategory;
-import ru.atc.smartbudget.dto.incomeCategory.PutIncomeCategory;
+import ru.atc.smartbudget.dto.incomeCategory.CreateIncomeCategory;
+import ru.atc.smartbudget.dto.incomeCategory.EditIncomeCategory;
 import ru.atc.smartbudget.exception.UserNotFoundException;
 import ru.atc.smartbudget.exception.IncomeCategoryNotFoundException;
-import ru.atc.smartbudget.model.DBIncomeCategory;
+import ru.atc.smartbudget.model.IncomeCategory;
+import ru.atc.smartbudget.model.User;
 import ru.atc.smartbudget.repository.IncomeCategoryRepository;
 import ru.atc.smartbudget.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class IncomeCategoryService {
@@ -30,14 +30,14 @@ public class IncomeCategoryService {
         this.userRepository = userRepository;
     }
 
-    public GetIncomeCategory getIncomeCategoryById(Long id) {
+    public IncomeCategoryDetail getIncomeCategoryById(Long id) {
         return incomeCategoryRepository
                 .findById(id)
                 .map(incomeCategoryMapping::toDto)
                 .orElseThrow(IncomeCategoryNotFoundException::new);
     }
 
-    public List<GetIncomeCategory> getIncomeCategoriesByUserId(Long userId) {
+    public List<IncomeCategoryDetail> getIncomeCategoriesByUserId(Long userId) {
         return userRepository.findById(userId).map(
                 user -> incomeCategoryRepository.findByUserUserId(userId)
                         .stream()
@@ -46,21 +46,22 @@ public class IncomeCategoryService {
         ).orElseThrow(UserNotFoundException::new);
     }
 
-    public GetIncomeCategory createIncomeCategory(
+    public IncomeCategoryDetail createIncomeCategory(
             Long userId,
-            PostIncomeCategory incomeCategoryData
+            CreateIncomeCategory incomeCategoryData
     ) {
-        return userRepository.findById(userId)
-                .map(user -> incomeCategoryMapping.toDto(incomeCategoryRepository.save(incomeCategoryMapping.postToEntity(incomeCategoryData))
-                )).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        IncomeCategory entity = incomeCategoryMapping.postToEntity(user,incomeCategoryData);
+        IncomeCategory savedEntity = incomeCategoryRepository.save(entity);
+        return incomeCategoryMapping.toDto(savedEntity);
     }
 
-    public GetIncomeCategory updateIncomeCategoryById(Long id, PutIncomeCategory inputData) {
+    public IncomeCategoryDetail updateIncomeCategoryById(Long id, EditIncomeCategory inputData) {
         return incomeCategoryRepository.findById(id)
                 .map(entity -> {
                     entity.setTitle(inputData.getTitle());
                     entity.setDescription(inputData.getDescription());
-                    DBIncomeCategory updatedEntity = incomeCategoryRepository.save(entity);
+                    IncomeCategory updatedEntity = incomeCategoryRepository.save(entity);
                     return incomeCategoryMapping.toDto(updatedEntity);
                 }).orElseThrow(IncomeCategoryNotFoundException::new);
     }

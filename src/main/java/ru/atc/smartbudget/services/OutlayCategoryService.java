@@ -1,42 +1,35 @@
 package ru.atc.smartbudget.services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.atc.smartbudget.dto.outlayCategory.GetOutlayCategory;
+import ru.atc.smartbudget.dto.outlayCategory.OutlayCategoryDetail;
 import ru.atc.smartbudget.dto.outlayCategory.OutlayCategoryMapping;
-import ru.atc.smartbudget.dto.outlayCategory.PutOutlayCategory;
+import ru.atc.smartbudget.dto.outlayCategory.EditOutlayCategory;
 import ru.atc.smartbudget.exception.OutlayCategoryNotFoundException;
-import ru.atc.smartbudget.model.DBOutlayCategory;
+import ru.atc.smartbudget.model.OutlayCategory;
 import ru.atc.smartbudget.repository.OutlayCategoryRepository;
 
-import java.util.Optional;
-
+@AllArgsConstructor
 @Service
 public class OutlayCategoryService {
     private final OutlayCategoryRepository outlayCategoryRepository;
     private final OutlayCategoryMapping outlayCategoryMapping;
 
-    public OutlayCategoryService(
-            OutlayCategoryRepository outlayCategoryRepository,
-            OutlayCategoryMapping outlayCategoryMapping
-    ) {
-        this.outlayCategoryRepository = outlayCategoryRepository;
-        this.outlayCategoryMapping = outlayCategoryMapping;
-    }
 
-    public GetOutlayCategory getOutlayCategoryById(Long id) {
+    public OutlayCategoryDetail getOutlayCategoryById(Long id) {
         return outlayCategoryRepository
                 .findById(id)
                 .map(outlayCategoryMapping::toDto)
                 .orElseThrow(OutlayCategoryNotFoundException::new);
     }
 
-    public GetOutlayCategory updateOutlayCategoryById(Long id, PutOutlayCategory inputData) {
+    public OutlayCategoryDetail updateOutlayCategoryById(Long id, EditOutlayCategory inputData) {
         return outlayCategoryRepository.findById(id)
                 .map(entity -> {
                     entity.setTitle(inputData.getTitle());
                     entity.setDescription(inputData.getDescription());
                     entity.setPriority(inputData.getPriority());
-                    DBOutlayCategory updatedEntity = outlayCategoryRepository.save(entity);
+                    OutlayCategory updatedEntity = outlayCategoryRepository.save(entity);
                     return outlayCategoryMapping.toDto(updatedEntity);
                 }).orElseThrow(OutlayCategoryNotFoundException::new);
     }

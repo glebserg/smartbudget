@@ -7,7 +7,7 @@ import lombok.Data;
 @Entity
 @Table(name = "income_categories")
 @Data
-public class DBIncomeCategory {
+public class IncomeCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "income_category_id")
@@ -21,5 +21,5 @@ public class DBIncomeCategory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private DBUser user;
+    private User user;
 }

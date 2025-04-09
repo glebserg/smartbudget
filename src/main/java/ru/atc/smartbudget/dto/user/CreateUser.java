@@ -8,7 +8,7 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PutUser {
+public class CreateUser {
     @NonNull
     private String firstName;
 

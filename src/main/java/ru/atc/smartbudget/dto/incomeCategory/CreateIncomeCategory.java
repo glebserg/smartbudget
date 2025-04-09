@@ -1,11 +1,11 @@
-package ru.atc.smartbudget.dto.outlayCategory;
+package ru.atc.smartbudget.dto.incomeCategory;
 
 import lombok.Data;
 import lombok.NonNull;
 
 
 @Data
-public class PostOutlayCategory {
+public class CreateIncomeCategory {
 
     @NonNull
     private String title;

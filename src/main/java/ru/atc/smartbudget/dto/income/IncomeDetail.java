@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import ru.atc.smartbudget.dto.incomeCategory.GetIncomeCategory;
+import ru.atc.smartbudget.dto.incomeCategory.IncomeCategoryDetail;
 
 import java.time.LocalDate;
 
@@ -12,9 +12,9 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetIncome {
+public class IncomeDetail {
     private Long incomeId;
-    private GetIncomeCategory incomeCategory;
+    private IncomeCategoryDetail incomeCategory;
 
     @NonNull
     private Double value;

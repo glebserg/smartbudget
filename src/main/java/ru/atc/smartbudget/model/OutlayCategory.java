@@ -7,7 +7,7 @@ import lombok.Data;
 @Entity
 @Table(name="outlay_categories")
 @Data
-public class DBOutlayCategory {
+public class OutlayCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "outlay_category_id")
@@ -15,7 +15,7 @@ public class DBOutlayCategory {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private DBUser user;
+    private User user;
 
     @Column(name = "title")
     private String title;

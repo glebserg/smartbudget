@@ -5,7 +5,7 @@ import lombok.NonNull;
 
 
 @Data
-public class GetOutlayCategory {
+public class OutlayCategoryDetail {
     @NonNull
     private Long outlayCategoryId;
 

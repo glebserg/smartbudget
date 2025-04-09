@@ -2,15 +2,15 @@ package ru.atc.smartbudget.dto.income;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.atc.smartbudget.model.DBIncome;
+import ru.atc.smartbudget.model.Income;
 
 @Mapper(componentModel = "spring")
 public interface IncomeMapping {
     @Mapping(source = "incomeId", target = "incomeId")
-    GetIncome toDto(DBIncome income);
+    IncomeDetail toDto(Income income);
 
     @Mapping(target = "incomeId", ignore = true)
-    DBIncome postToEntity(PostIncome dto, Long userId);
+    Income postToEntity(CreateIncome dto, Long userId);
 
-    DBIncome putToEntity(Long incomeId, PutIncome dto );
+    Income putToEntity(Long incomeId, EditIncome dto );
 }

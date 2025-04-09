@@ -11,16 +11,11 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostOutlay {
-
-    @NonNull
-    private Long outlayCategoryId;
+public class EditOutlay {
 
     @NonNull
     private Double value;
 
     @NonNull
     private LocalDate outlayDate;
-
-    private String comment;
 }

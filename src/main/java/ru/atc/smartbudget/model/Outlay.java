@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "outlays")
 @Data
-public class DBOutlay {
+public class Outlay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "outlay_id")
@@ -26,7 +26,7 @@ public class DBOutlay {
     @Column(name = "outlay_date")
     private LocalDate outlayDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "outlay_category_id")
-    private DBOutlayCategory outlayCategory;
+    private OutlayCategory outlayCategory;
 }

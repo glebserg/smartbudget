@@ -1,18 +1,15 @@
-package ru.atc.smartbudget.dto.outlayCategory;
+package ru.atc.smartbudget.dto.incomeCategory;
 
 import lombok.Data;
 import lombok.NonNull;
 
 
 @Data
-public class PutOutlayCategory {
+public class EditIncomeCategory {
 
     @NonNull
     private String title;
 
     @NonNull
     private String description;
-
-    @NonNull
-    private Integer priority;
 }

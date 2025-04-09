@@ -5,7 +5,7 @@ import lombok.NonNull;
 
 
 @Data
-public class GetIncomeCategory {
+public class IncomeCategoryDetail {
     @NonNull
     private Long incomeCategoryId;
 

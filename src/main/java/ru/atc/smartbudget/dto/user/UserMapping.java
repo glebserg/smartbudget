@@ -2,13 +2,13 @@ package ru.atc.smartbudget.dto.user;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.atc.smartbudget.model.DBUser;
+import ru.atc.smartbudget.model.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapping {
     @Mapping(source = "userId", target = "userId")
-    GetUser toDto(DBUser user);
+    UserDetail toDto(User user);
 
     @Mapping(target = "userId", ignore = true)
-    DBUser toEntity(PostUser userData);
+    User toEntity(CreateUser userData);
 }
