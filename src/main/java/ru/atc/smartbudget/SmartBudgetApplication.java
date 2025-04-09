@@ -2,12 +2,14 @@ package ru.atc.smartbudget;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-public class SmartbudgetApplication {
+@EnableJpaAuditing
+public class SmartBudgetApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SmartbudgetApplication.class, args);
+		SpringApplication.run(SmartBudgetApplication.class, args);
 	}
 
 }

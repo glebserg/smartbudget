@@ -1,0 +1,17 @@
+package ru.atc.smartbudget.dto.incomeCategory;
+
+import lombok.Data;
+import lombok.NonNull;
+
+
+@Data
+public class IncomeCategoryDetail {
+    @NonNull
+    private Long incomeCategoryId;
+
+    @NonNull
+    private String title;
+
+    @NonNull
+    private String description;
+}
